@@ -113,21 +113,13 @@ Example: if you pass it "abc" then it should return "aabbcc"
 
 //string, loop, map
 
-
-function doubleLetters(string) {
-    var newString = "";
-    for (i = 0; i < string.length; i++) {
-        newString.push = string[i] * 2;
-
-    }
-
-    return newString;
+function doubleLetters(str) {
+    str = str.split('')
+    let newArr = str.map(el => el + el)
+    return newArr.join('')
 }
 
 console.log(doubleLetters("abc"))
-
-
-
 
 /*
 ----------------------------------------
@@ -149,15 +141,13 @@ NOTE: you can assume each input will be the same length
 function interleave(array1, array2) {
     var arrayCombined = [];
     for (i = 0; i < array1.length; i++) {
-        arrayCombined.push += array1[i];
-        arrayCombined.push += array2[i];
+        arrayCombined.push(array1[i]);
+        arrayCombined.push(array2[i]);
     }
     return arrayCombined;
 }
 //
 console.log(interleave(["a", "b", "c"], ["x", "y", "z"]))
-
-
 
 /*
 ----------------------------------------
@@ -221,6 +211,15 @@ If you pass it ["quick", "brown", "fox"] then it should return { "quick": 0, "br
 //
 // console.log(flipArray("quick", "brown", "fox"))
 
+function flipArray(array) {
+    var object = new Object();
+    for (var i = 0; i < array.length; i++) {
+        object[array[i]] = i;
+    };
+    return object;
+};
+var testarray = ["quick", "brown", "fox"];
+
 
 /*
 ----------------------------------------
@@ -237,14 +236,10 @@ If you pass it [[2014, "Horse"], [2015, "Sheep"]] then it should return { 2014: 
 
 //array of 2 arrays -> object + key/value pairs, loop, map
 
-function arraysToObject(array1, array2) {
+function arraysToObject(array) {
     var newObj = {};
-    for (i = 0; i < array1.length; i++) {
-        newObj = array[i], array2[i];
-    }
-    for (i = 0; i < array1.length; i++) {
-        newObj = array[i], array2[i];
-
+    for (i = 0; i < array.length; i++) {
+        newObj[array[i][0]] = array[i][1];
     }
 
     return newObj;
@@ -255,6 +250,14 @@ console.log([
 ], [
     [2015], "Sheep"
 ])
+
+// function arraysToObject(arr){
+//   let obj = {}
+//   for (i=0; i<arr.length; i++){
+//     obj[arr[i][0]]= arr[i][1]
+//   }
+//   return obj
+// }
 
 /*
 ----------------------------------------
@@ -271,20 +274,14 @@ If you pass it "hello" then it should return "olleh", map
 //string -> string in reverse
 
 function reverseString(string) {
-    newString = "";
-    for (i = 0; i < string.length; i++) {
-        newString = string[i];
+    newString = [];
+    for (i = string.length; i >= 0; i--) {
+        newString.push(string.charAt(i))
     }
-    return newString;
+    return newString.join("");
 }
 
 console.log(reverseString("hello"))
-
-
-
-
-
-
 
 /*
 ----------------------------------------
@@ -303,20 +300,19 @@ If you pass it "heehaw" then it should return false because "hee" doesn't equal 
 //string -> boolean, loop then change conditionally(boolean)
 
 function repeats(string) {
-    var boolean = true;
-    for (i = 0; i < string.length; i++) {
-        //     if (string.repeats[i] === true)
+    var firstHalf = string.slice(0, string.length / 2);
+    var secondHalf = string.slice(string.length / 2, string.length)
+    if (string.length % 2 === 0 && firstHalf === secondHalf) {
+        return true
+    } else {
+        return false
     }
-    // else(string.repeats[i])
-    return boolean;
+
 }
 
 console.log(repeats("haha"))
 console.log(repeats("yay"))
 console.log(repeats("heehaw"))
-
-
-
 
 /*
 ----------------------------------------
@@ -333,18 +329,18 @@ If you pass it "abcdef" then it should return "ace" because those represent ever
 //string -> string with every other character (++2 instead of ++1?), filter
 
 function everyOther(string) {
-    var newString = "";
+    var test = false;
+    var newString = [];
 
     for (i = 0; i < string.length; i++) {
-        newString = string[i];
+        test = !test;
+        if (test === true)
+            newString.push(string[i])
     }
-    return newString;
+    return newString.join("");
 }
 
 console.log(everyOther("abcdef"))
-
-
-
 
 /*
 ----------------------------------------
@@ -364,8 +360,11 @@ If you pass "aba" it should return false
 
 function allEqual(string) {
     var boolean = true;
-    for (i = 0; i < string.length; i++) {
-        newString = string[i];
+    var array = string.split("")
+    for (i = 1; i < string.length; i++) {
+        if (array[i] !== array[i - 1]) {
+            boolean = false;
+        }
 
     }
     return boolean;
@@ -373,8 +372,6 @@ function allEqual(string) {
 
 console.log(allEqual("aaa"))
 console.log(allEqual("aba"))
-
-
 
 /*
 ----------------------------------------
@@ -392,19 +389,18 @@ If you pass "246" it should return 10
 //string -> sum of strings, loop, change to numbers, output new sum string, map
 
 function sumLetters(string) {
-    var sumNumber = 0;
-    for (i = 0; i < string.length; i++) {
-        sumNumber += string[i];
-
+    var output
+    var array = string.split("");
+    if (string === "") {
+        output = 0;
+    } else {
+        output = array.reduce((a, b) => (Number(a) + Number(b)))
     }
-    return sumNumber;
+    return output
 }
 
 console.log(sumLetters("45"))
 console.log(sumLetters("246"))
-
-
-
 
 /*
 ----------------------------------------
@@ -421,24 +417,18 @@ If you pass "you" it should return 2
 //string -> number, loop to count vowels? === a, === e, === o, === i, === u?, reduce
 
 function countVowels(string) {
-    newString = "";
-    for (i = 0; i < string.length; i++) {
-        // if (string[i] === a) {
-        //     var largerThan = "Yes, num1 is greater than num2";
-        // } else if {
-        //     var largerThan = "No, num1 is not greater than num2";
-        // }
-        // if ()
-        //     newString += string[i];
+    function vowels(value) {
+        if (value === "a" || value === "e" || value === "i" || value === "o" || value === "u") {
+            return value;
+        }
     }
-    return newString;
+    var array = string.split("");
+    var vowelArray = array.filter(vowels);
+    return vowelArray.length;
+
 }
 
 console.log(countVowels("you"))
-
-
-
-
 
 /*
 ----------------------------------------
@@ -456,18 +446,15 @@ NOTE: do not use the builtin `split` method
 
 //string -> array, loop to return word split into string letters, map
 
-
 function split(string) {
     var newArray = [];
     for (i = 0; i < string.length; i++) {
-
+        newArray.push(string.charAt(i))
     }
     return newArray;
 }
 
 console.log(split("you"))
-
-
 
 /*
 ----------------------------------------
@@ -488,16 +475,13 @@ If you pass "Hello" it should return [ 72, 101, 108, 108, 111 ]
 function getCodePoints(string) {
     var newArray = [];
     for (i = 0; i < string.length; i++) {
-        newString = string.codePointAt[i];
+        newArray.push(string.codePointAt(i));
 
     }
     return newArray;
 }
 
 console.log(getCodePoints("Hello"))
-
-
-
 
 /*
 ----------------------------------------
@@ -517,17 +501,11 @@ If you pass "Hello" it should return {H: 0, e: 1, l: 3, o: 4}
 function letterMap(string) {
     var newObject = {};
     for (i = 0; i < string.length; i++) {
-
+        newObject[string.charAt(i)] = i
     }
     return newObject;
 
 }
-
-// console.log(letterMap("Yo"))
-// console.log(letterMap("Hello"))
-
-
-
 
 /*
 ----------------------------------------
@@ -547,16 +525,14 @@ If you pass "Hello" it should return {"H": 1, "e": 1, "l": 2, "o": 1}
 function letterCount(string) {
     var newObject = {}
     for (i = 0; i < string.length; i++) {
-
+        if (newObject[string.charAt(i)]) {
+            newObject[string.charAt(i)]++
+        } else {
+            newObject[string.charAt(i)] = 1
+        }
     }
     return newObject;
 }
-
-// console.log(letterCount("Yo"))
-// console.log(letterCount("Hello"))
-
-
-
 
 /*
 ----------------------------------------
@@ -574,17 +550,21 @@ If you pass 0,6 it should return true because between 0 and six (the numbers 1,2
 //number -> boolean, conditional, loop
 
 function threeOdds(number1, number2) {
-    var boolean = false;
-    for (i = 0; i < number1.length; i++) {
-
-
+    var count = 0;
+    for (i = number1 + 1; i < number2; i++) {
+        if (i % 2 !== 0) {
+            count++
+        }
     }
-    return boolean;
+    if (count > 2) {
+        return true;
+    } else {
+        return false
+    }
 }
 
-
-// console.log(threeOdds(0, 2));
-// console.log(threeOdds(0, 6));
+console.log(threeOdds(0, 2));
+console.log(threeOdds(0, 6));
 
 /*
 ----------------------------------------
@@ -602,19 +582,19 @@ If you pass "a", 3, "*" it should return "**a" - that is, a string of length 3, 
 
 //ISSUE HERE THAT BREAKS CODE
 
-// function leftPad(string, length, fillCharacter) {
-//     newString = "";
-//     for (i = 0; string.length; i++) {
-//
-//     }
-//     return newString;
-//
-// }
-//
-// console.log(leftPad("a", 3, "*"))
+function leftPad(string, length, fillCharacter) {
+    var newString = "";
+    if (string.length < length) {
+        for (let i = 0; i < (length - string.length); i++) {
+            newString += fillCharacter
+        }
+        return newString + string;
+    } else {
+        return string
+    }
+}
 
-
-
+console.log(leftPad("a", 3, "*"))
 
 /*
 ----------------------------------------
@@ -632,8 +612,9 @@ If you pass "b", 3 it should return "bb"
 // number + string letter - > string letter * number, map, loop
 
 function createString(number, letter) {
-    newString = "";
-    for (i = 0; i < number.length; i++) {
+    var newString = "";
+    for (i = 1; i <= number; i++) {
+        newString += letter;
 
     }
     return newString;
@@ -641,9 +622,6 @@ function createString(number, letter) {
 
 console.log(createString(3, "a"))
 console.log(createString(2, "b"))
-
-
-
 
 /*
 ----------------------------------------
@@ -664,8 +642,8 @@ If you pass 5 it should return 120 since that's 5 * 4 * 3 * 2 * 1
 
 function factorial(number) {
     var newNumber = 1;
-    for (i = 0; i < number.length; i++) {
-
+    for (i = number; i > 0; i--) {
+        newNumber *= i
     }
     return newNumber;
 
@@ -673,8 +651,6 @@ function factorial(number) {
 
 console.log(factorial(4))
 console.log(factorial(5))
-
-
 
 /*
 ----------------------------------------
@@ -694,18 +670,22 @@ If you pass 3 it should return [1,2,3]
 
 function arrayOfNumbers(number) {
     var newArray = [];
-    for (i = 0; i < number.length; i++) {
-
-
+    for (i = 1; i <= number; i++) {
+        newArray.push(i);
     }
     return newArray;
-
 }
 
 console.log(arrayOfNumbers(1))
 console.log(arrayOfNumbers(3))
 
-
+// function arrayOfNumbers(num){
+//   let arr = []
+//   for (i=1; i<=num; i++){
+//     arr.push(i)
+//   }
+//   return arr
+// }
 
 
 /*
@@ -724,17 +704,20 @@ If you pass 1,4 it should return {"1": "odd", "2": "even", "3": "odd", "4": "eve
 
 function evenOdd(number1, number2) {
     var newObject = {};
-    for (i = 0; i < number1.length; i++) {
-
+    if (number1 === 0 && number2 === 0) {
+        return newObject;
     }
-    return newObject;
+    for (i = number1; i <= number2; i++) {
+        var test = "odd"
+        if (i % 2 === 0) {
+            test = "even"
+        }
+        newObject[i.toString()] = test
+    }
+    return newObject
 }
 
 console.log(evenOdd(1, 4))
-
-
-
-
 
 /*
 ----------------------------------------
@@ -752,15 +735,18 @@ If you pass 2,"d" it should return {"d": true, "dd": true}
 
 function growingKeys(number, string) {
     var newObject = {};
-    for (i = 0; i < number.length; i++) {
-
+    var key = "";
+    if (number === 0) {
+        return newObject
     }
-    return newObject;
+    for (i = 0; i < number; i++) {
+        key += string
+        newObject[key] = true
+    }
+    return newObject
 }
+
 console.log(growingKeys(2, "d"))
-
-
-
 
 /*
 ----------------------------------------
@@ -777,18 +763,18 @@ If you pass [1,2], 1 it should return false
 
 //array + value -> boolean true if all elements in array === same value, loop, conditional
 
-function every(array) {
+function every(array, value) {
     var boolean = true;
-    for (i = 0; i < array.length; i++) {
-
-    }
+    array.forEach(el => {
+        if (el !== value) {
+            boolean = false
+        }
+    })
     return boolean;
 }
 
 console.log(every([1, 1]))
 console.log(every([1, 2]))
-
-
 
 /*
 ----------------------------------------
@@ -806,17 +792,22 @@ If you pass [3,2], 1 it should return false
 //array + value -> boolean, if at least 1 element in array === same as value given, loop, conditional
 
 function some(array, value) {
-    var boolean = false;
-    for (i = 0; i < array.length; i++) {
-
+    if (array.indexOf(value) > -1) {
+        return true
+    } else {
+        return false
     }
-    return boolean;
 }
-
 console.log(some([1, 2], 1))
 console.log(some([3, 2], 1))
 
-
+// function some(arr, val){
+//   if (arr.indexOf(val) > -1){
+//     return true
+//   } else {
+//     return false
+//   }
+// }
 
 
 /*
@@ -834,19 +825,20 @@ If you pass ["Sue", "Will", "Rachel"] it should return "Sue, Will and Rachel"
 
 //array -> string of elements joined by ", and ", loop, map
 
-function some(array) {
+function toSentence(array) {
     var newString = "";
-    for (i = 0; i < array.length; i++) {
-
+    if (array.length === 0) {
+        return newString
     }
-    return newString;
+    var temp = array[array.length - 2] + " and " + array[array.length - 1]
+    for (i = 0; i < array.length - 2; i++) {
+        newString += array[i] + ", ";
+    }
+    return newString + temp;
 }
 
 console.log(some(["Sue", "Will"]))
 console.log(some(["Sue", "Will", "Rachel"]))
-
-
-
 
 
 /*
@@ -865,18 +857,16 @@ If you pass ["Java", Script", "Object", "Notation"] it should return "JSON"
 //array -> string that is acronym of that array, loop, map
 
 function acronym(array) {
-    var newString = "";
+    var newString = [];
     for (i = 0; i < array.length; i++) {
-
+        newString.push(array[i].charAt(0))
 
     }
-    return newString;
+    return newString.join("");
 }
 
 console.log(acronym(["Sue", "Will"]))
 console.log(acronym(["Java", "Script", "Object", "Notation"]))
-
-
 
 /*
 ----------------------------------------
@@ -893,18 +883,20 @@ If you pass [0,-3,2,5] it should return -3
 //array -> number that is lowest value inside that array, reduce
 
 function min(array) {
-    var number = 0;
-    for (i = 0; i < array.length; i++) {
-
+    if (array.length === 0) {
+        return undefined
+    } else {
+        let king = Infinity
+        array.forEach(el => {
+            if (el <= king) {
+                king = el
+            }
+        })
+        return king
     }
-    return number;
 }
 
 console.log(min([0, -3, 2, 5]))
-
-
-
-
 
 /*
 ----------------------------------------
@@ -921,24 +913,17 @@ If you pass [{id: 1, name: "Joe"}, {id: 2, name: "Sue"}] it should return {1: {i
 
 //array of objects + property name -> object (keys are the specified property), map
 
-function index(array) {
-    var newObj = {};
-    for (i = 0; i < array.length; i++) {
-
+function index(array, property) {
+    var newObj = {}
+    if (array.length === 0) {
+        return newObj
+    } else {
+        array.forEach(el => {
+            newObj[el[property]] = el
+        })
     }
-
-    return newObj;
+    return newObj
 }
-
-console.log(index([{
-    id: 1,
-    name: "Joe"
-}, {
-    id: 2,
-    name: "Sue"
-}]))
-
-
 
 /*
 ----------------------------------------
@@ -957,20 +942,16 @@ If you pass {id: 1, name: "Joe"} it should return {1: "id", Joe: "name"}
 
 function invert(object) {
     var newObj = {};
-    for (let key in obj) {
-        newObj[obj[key]] = key;
+    for (var key in object) {
+        newObj[object[key]] = key
     }
     return newObj;
-
 }
 
 console.log(invert({
     id: 1,
     name: "Joe"
 }))
-
-
-
 
 /*
 ----------------------------------------
@@ -989,19 +970,19 @@ If you pass {"contract": "foo"}, "Fred" it should return {"contract-signed": "fo
 
 //object + name -> object {"keys - "signed"": " - <name>", map
 
-function addSignature(object, name) {
-    var newObj = {};
-    for (i = 0; i < object.length; i++) {
-
+function addSignature(name, obj) {
+    let output = {}
+    for (var key in obj) {
+        let newKey = key + '-signed'
+        let newVal = obj[key] + ' - ' + name
+        output[newKey] = newVal
     }
-    return newObj;
+    return output
 }
 
 console.log(addSignature({
     "contract": "foo"
 }, "Fred"))
-
-
 
 /*
 ----------------------------------------
@@ -1017,22 +998,19 @@ If you pass {name: "Will", age: 24} it should return ["name - will", "age - 24"]
 
 //object -> array of strings of key/value pairs, map,
 
-function pairs(object) {
-    var newArray = [];
-    for (i = 0; i < object.length; i++) {
-
+function pairs(obj) {
+    let arr = []
+    for (var key in obj) {
+        let str = `${key} - ${obj[key]}`
+        arr.push(str)
     }
-    return newArray;
-
+    return arr
 }
 
 console.log(pairs({
     name: "Will",
     age: 24
 }))
-
-
-
 
 /*
 ----------------------------------------
@@ -1049,12 +1027,11 @@ If you pass {a: 1, b: 2} it should return 3
 //object -> number (sum of values), reduce, loop
 
 
-function sumValues(object) {
+function sumValues(obj) {
     var number = 0;
-    for (i = 0; object.length; i++) {
-
+    for (var key in obj) {
+        number += obj[key]
     }
-
     return number;
 }
 
@@ -1063,8 +1040,88 @@ console.log(sumValues({
     b: 2
 }))
 
+/*
+----------------------------------------
+CHALLENGE
+----------------------------------------
 
+Write a function named biggestProperty that takes an object and returns the name of the property with the highest value
 
+Example:
+
+If you pass {1999: 4036, 2000: 7654} it should return '2000'
+*/
+
+//object -> name of property with highest value, filter
+
+function biggestProperty(obj) {
+    var king = undefined
+    let temp = -Infinity
+    for (var key in obj) {
+        if (temp < obj[key]) {
+            king = key
+            temp = obj[key]
+        }
+    }
+    return king;
+}
+
+console.log(biggestProperty({
+    1999: 4036,
+    2000: 7654
+}))
+
+/*
+----------------------------------------
+CHALLENGE
+----------------------------------------
+
+Write a function named keyForValue that takes an object and a value and returns the name of the property that matches that value
+
+Example:
+
+If you pass {1999: 4036, 2000: 7654} and 4036, it should return '1999'
+*/
+
+//object + value -> name of property that matches === value, filter
+
+function keyForValue(obj, val) {
+    let temp = undefined
+    for (var key in obj) {
+        if (obj[key] === val) {
+            temp = key
+        }
+    }
+    return temp
+}
+
+console.log(keyForValue({
+    1999: 4036,
+    2000: 7654
+}, 4036))
+
+/*
+----------------------------------------
+CHALLENGE
+----------------------------------------
+
+Write a function named containsValue that takes an object and a value and returns true if the object contains the value
+
+Example:
+
+If you pass {1999: 4036, 2000: 7654} and 4036, it should return true
+*/
+
+//object + value -> boolean, true if object contains that same value, conditional,
+
+function containsValue(obj, val) {
+    for (var key in obj) {
+        if (obj[key] === val) {
+            return true
+        }
+    }
+    return false
+}
 
 /*
 ----------------------------------------
@@ -1081,11 +1138,7 @@ If you pass {1999: 4036, 2000: 7654} it should return '2000'
 //object -> name of property with highest value, filter
 
 function biggestProperty(object) {
-    var newObj = {};
-    for (i = 0; object.length; i++) {
 
-    }
-    return newObj;
 
 }
 
@@ -1093,98 +1146,6 @@ console.log(biggestProperty({
     1999: 4036,
     2000: 7654
 }))
-
-
-
-
-/*
-----------------------------------------
-CHALLENGE
-----------------------------------------
-
-Write a function named keyForValue that takes an object and a value and returns the name of the property that matches that value
-
-Example:
-
-If you pass {1999: 4036, 2000: 7654} and 4036, it should return '1999'
-*/
-
-//object + value -> name of property that matches === value, filter
-
-// function keyForValue(object, value) {
-//
-//
-// }
-//
-// console.log(keyForValue({
-//     1999: 4036,
-//     2000: 7654
-// }, 4036))
-//
-
-
-
-
-/*
-----------------------------------------
-CHALLENGE
-----------------------------------------
-
-Write a function named containsValue that takes an object and a value and returns true if the object contains the value
-
-Example:
-
-If you pass {1999: 4036, 2000: 7654} and 4036, it should return true
-*/
-
-//object + value -> boolean, true if object contains that same value, conditional,
-
-// function containsValue(object, value) {
-//
-//
-// }
-//
-// console.log(containsValue({
-//     1999: 4036,
-//     2000: 7654
-// }, 4036))
-//
-// function sumValues(object) {
-//
-//
-// }
-//
-// console.log(sumValues({
-//     a: 1,
-//     b: 2
-// }))
-
-
-
-
-/*
-----------------------------------------
-CHALLENGE
-----------------------------------------
-
-Write a function named biggestProperty that takes an object and returns the name of the property with the highest value
-
-Example:
-
-If you pass {1999: 4036, 2000: 7654} it should return '2000'
-*/
-
-//object -> name of property with highest value, filter
-
-// function biggestProperty(object) {
-//
-//
-// }
-//
-// console.log(biggestProperty({
-//     1999: 4036,
-//     2000: 7654
-// }))
 
 
 
